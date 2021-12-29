@@ -19,6 +19,7 @@ jobs:
 
     - name: 'Installing System Dependencies'
       run: |
+        sudo apt-get install -y mysql-common mysql-client-8.0
         sudo apt-get install -y build-essential debconf-utils screen nodejs mysql-server-8.0 google-chrome-stable
         sudo apt-get install -y unzip xvfb autogen autoconf libtool pkg-config nasm
       continue-on-error: true
@@ -27,7 +28,7 @@ jobs:
       uses: shivammathur/setup-php@v2
       with:
         php-version: 8.0
-        extensions: mbstring, dom, fileinfo, mysql
+        extensions: mbstring, dom, fileinfo, mysql, curl, openssl, pdo_mysql
         coverage: xdebug
       continue-on-error: true
 
@@ -55,6 +56,11 @@ jobs:
         php artisan migrate --force
       working-directory: ./sample-php-app
       continue-on-error: true
+
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
