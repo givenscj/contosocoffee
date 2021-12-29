@@ -17,16 +17,6 @@ jobs:
     - name: 'Checkout'
       uses: actions/checkout@main
 
-    - name: 'Use PHP version $(phpVersion)'
-      run: |
-        sudo update-alternatives --set php /usr/bin/php$(phpVersion)
-        sudo update-alternatives --set phar /usr/bin/phar$(phpVersion)
-        sudo update-alternatives --set phpdbg /usr/bin/phpdbg$(phpVersion)
-        sudo update-alternatives --set php-cgi /usr/bin/php-cgi$(phpVersion)
-        sudo update-alternatives --set phar.phar /usr/bin/phar.phar$(phpVersion)
-        php -version
-      working-directory: $(Build.SourcesDirectory)/sample-php-app
-
     - name: 'Installing System Dependencies'
       run: |
         curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
