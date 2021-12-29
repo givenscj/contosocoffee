@@ -39,8 +39,9 @@ jobs:
     - name: 'Environment Setup'
       run: |
         dir
-        curl ${{ github.server_url }}/${{ github.repository }}/sample-php-app/.env.sample > .env
-        #cp .env.sample .env
+        echo "${{ github.server_url }}/${{ github.repository }}"
+        curl ${{ github.server_url }}/${{ github.repository }}/sample-php-app/.env.sample
+        cp .env.sample .env
       working-directory: ./sample-php-app
       continue-on-error: true
 
