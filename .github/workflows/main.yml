@@ -19,10 +19,8 @@ jobs:
 
     - name: 'Installing System Dependencies'
       run: |
-        curl -sL https://deb.nodesource.com/setup_11.x | sudo -E bash -
         sudo apt-get install -y build-essential debconf-utils screen nodejs mysql-server google-chrome-stable
         sudo apt-get install -y unzip xvfb autogen autoconf libtool pkg-config nasm
-      working-directory: $(Build.SourcesDirectory)/sample-php-app
 
     - name: Setup PHP
       uses: shivammathur/setup-php@v2
@@ -37,20 +35,20 @@ jobs:
     - name: 'Environment Setup'
       run: |
         cp .env.sample .env
-      working-directory: $(Build.SourcesDirectory)/sample-php-app
+      working-directory: ./sample-php-app
 
     - name: 'Installing Package Dependencies'
       run: |
         sudo composer self-update
         composer install --no-interaction --prefer-dist --no-suggest
         composer --version
-      working-directory: $(Build.SourcesDirectory)/sample-php-app
+      working-directory: ./sample-php-app
 
     - name: 'Running Migrations'
       run: |
         php artisan key:generate --force
         php artisan migrate --force
-      working-directory: $(Build.SourcesDirectory)/sample-php-app
+      working-directory: ./sample-php-app
 
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@v2
